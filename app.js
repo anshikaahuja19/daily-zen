@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
   fetchQuote();
   showGreeting();
 
-  // 👇 Click only on empty space to change quote
+  
   document.body.addEventListener("click", function(e) {
     if (
       e.target.id === "quote-text" ||
@@ -24,7 +24,7 @@ async function fetchQuote() {
   const data = await res.json();
   allQuotes = data.quotes;
 
-  // Show random quote on load
+  
   const randomIdx = Math.floor(Math.random() * allQuotes.length);
   showQuote(allQuotes[randomIdx]);
 
