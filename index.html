@@ -9,13 +9,20 @@
 </head>
 
 <body>
-    <p id="greeting"></p>
-    <p id="quote-text">Quote will appear here</p>
-    <p id="quote-author">— Author</p>
-    <button onclick="refreshQuote()">New Quote</button>
-    <input type="text" id="search-input" placeholder="Search quotes or authors..." oninput="searchQuotes()"/>
-    <script src="app.js"></script>
+    <video autoplay muted loop id="bg-video">
+        <source src="8832126-uhd_3840_2160_30fps copy.mp4" type="video/mp4">
+    </video>
 
+    <input type="text" id="search-input" placeholder="Search quotes or authors..." oninput="searchQuotes()" />
+
+    <div class="center">
+        <p id="greeting"></p>
+        <p id="quote-text"></p>
+        <p id="quote-author"></p>
+
+    </div>
+
+    <script src="app.js"></script>
 </body>
 
 </html>

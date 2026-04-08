@@ -1,7 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
   fetchQuote();
   showGreeting();
+
+  // 👇 Click only on empty space to change quote
+  document.body.addEventListener("click", function(e) {
+    if (
+      e.target.id === "quote-text" ||
+      e.target.id === "quote-author" ||
+      e.target.id === "search-input"
+    ) {
+      return;
+    }
+    refreshQuote();
+  });
 });
+
 let allQuotes = [];
 
 async function fetchQuote() {
@@ -9,21 +22,39 @@ async function fetchQuote() {
 
   const res  = await fetch(Url);
   const data = await res.json();
-  allQuotes = data.quotes; // store all 50
-  showQuote(allQuotes[0]);               // show the first one
+  allQuotes = data.quotes;
 
-  // Just log it first — see what you're working with
+  // Show random quote on load
+  const randomIdx = Math.floor(Math.random() * allQuotes.length);
+  showQuote(allQuotes[randomIdx]);
+
   console.log(allQuotes);
-
-  
 }
+
 function showQuote(quotes) {
   document.getElementById("quote-text").textContent   = `"${quotes.quote}"`;
   document.getElementById("quote-author").textContent = `— ${quotes.author}`;
 }
+
 function refreshQuote() {
   const randomIdx = Math.floor(Math.random() * allQuotes.length);
   showQuote(allQuotes[randomIdx]);
+}
+
+function searchQuotes() {
+  const query = document.getElementById("search-input").value.toLowerCase();
+
+  const filteredQuotes = allQuotes.filter(q => 
+    q.quote.toLowerCase().includes(query) || 
+    q.author.toLowerCase().includes(query)
+  );
+
+  if (filteredQuotes.length > 0) {
+    showQuote(filteredQuotes[0]);
+  } else {
+    document.getElementById("quote-text").textContent = "No quotes found";
+    document.getElementById("quote-author").textContent = "";
+  }
 }
 
 function showGreeting() {
@@ -37,20 +68,4 @@ function showGreeting() {
   if (hour >= 21 || hour < 5 ) greeting = "Good night · rest well";
 
   document.getElementById("greeting").textContent = greeting;
-}
-
-function searchQuotes() {
-  const query = document.getElementById("search-input").value.toLowerCase();
-
-  const filteredQuotes = allQuotes.filter(q => 
-    q.quote.toLowerCase().includes(query) || 
-    q.author.toLowerCase().includes(query)
-  );
-
-  if (filteredQuotes.length > 0) {
-    showQuote(filteredQuotes[0]); // show first match
-  } else {
-    document.getElementById("quote-text").textContent = "No quotes found";
-    document.getElementById("quote-author").textContent = "";
-  }
 }
